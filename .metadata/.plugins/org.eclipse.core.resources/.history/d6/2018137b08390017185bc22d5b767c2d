@@ -1,0 +1,21 @@
+import java.awt.Container;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+
+public class Screen {
+	public static void main(String[] args){
+		JFrame ab=new JFrame("practice");
+		ab.setSize(400,400);
+		ab.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ab.setLocationRelativeTo(null);
+		Container contentPane = ab.getContentPane();
+
+	    // Add a close button
+	    JButton closeButton = new JButton("Close");
+	    contentPane.add(closeButton);
+		ab.setVisible(true);
+		
+	}
+}
