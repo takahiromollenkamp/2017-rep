@@ -1,0 +1,35 @@
+import java.awt.Container;
+import java.awt.FlowLayout;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+
+
+public class Screen {
+	public static void main(String[] args){
+		JFrame frame = new JFrame("JFrame");
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    Container contentPane = frame.getContentPane();
+
+	    
+	    frame.setSize(700,700);
+	    
+	    frame.setLocationRelativeTo(null);
+	    // set the size of the frame 300 x 200
+	 
+	   
+	    ImageIcon ii = new ImageIcon("C:/car.png");
+	      JLabel lable = new JLabel(ii);
+	      JScrollPane jsp = new JScrollPane(lable);
+	      frame.getContentPane().add(jsp);
+	    
+	    
+	   
+	    frame.setVisible(true);
+
+		
+	}
+}
