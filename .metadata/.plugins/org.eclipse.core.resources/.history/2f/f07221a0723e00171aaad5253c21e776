@@ -1,0 +1,32 @@
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelListener;
+import java.awt.*;
+
+
+public class MousePractice extends Core implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener{
+
+	public static void main(String[] args) {
+		new MousePractice().run();
+		
+	}
+	private String mess="";
+	
+	public void init(){
+		super.init();
+		Window w=s.getFullScreenWindow();
+		w.addMouseListener(this);
+		w.addMouseMotionListener(this);
+		w.addMouseWheelListener(this);
+		w.addKeyListener(this);
+	}
+	public synchronized void draw(Graphics g){
+		Window w =s.getFullScreenWindow();
+		g.setColor(w.getBackground());
+		g.fillRect(0, 0, s.getWidth(), s.getHeight());
+		g.setColor(w.getForeground());
+		g.drawString(mess, 30, 30);
+	}
+
+}

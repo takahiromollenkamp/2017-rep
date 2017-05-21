@@ -1,0 +1,87 @@
+import java.awt.DisplayMode;
+import javax.swing.JFrame;
+import java.awt.*;
+import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
+
+public class Poke {
+
+	public static void main(String[] args) {
+		DisplayMode dm =new DisplayMode(800,600,16,DisplayMode.REFRESH_RATE_UNKNOWN);
+		Poke b= new Poke();
+		b.run(dm);
+
+	}
+	
+	private Screen screen;
+	private Image bg;
+	private Animation a;
+	
+	//loads pics
+	public void loadPics(){
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		InputStream input1 = classLoader.getResourceAsStream("space.jpeg");
+		InputStream input2 = classLoader.getResourceAsStream("Face1.png");
+		InputStream input3 = classLoader.getResourceAsStream("Face2.png");
+		
+		
+		try {
+			
+			bg =ImageIO.read(input1);
+			Image face1=ImageIO.read(input2);
+		    Image face2=ImageIO.read(input3);
+		    a=new Animation();
+			a.addScene(face1, 250);
+			a.addScene(face2, 250);
+			
+		}catch(Exception e){}
+		/*bg=new ImageIcon("space.jpeg").getImage();
+		Image face1 =new ImageIcon("Face1.png").getImage();
+		Image face2 =new ImageIcon("Face2.png").getImage();
+		a=new Animation();
+		a.addScene(face1, 250);
+		a.addScene(face2, 250);*/
+	}
+	
+	//running
+	public void run(DisplayMode dm){
+		screen=new Screen();
+		try{
+			screen.setFullScreen(dm,  new JFrame());
+			loadPics();
+			movieLoop();
+			
+			
+		}finally{
+			screen.restoreScreen();
+		}
+	}
+	//main movie loop
+	public void movieLoop(){
+		long startingTime=System.currentTimeMillis();
+		long cumTime=startingTime;
+		
+		while(cumTime-startingTime<5000){
+			long timePassed =System.currentTimeMillis()-cumTime;
+			cumTime+=timePassed;
+			a.update(timePassed);
+			
+			Graphics g=screen.getFullScreenWindow().getGraphics();
+			draw(g);
+			g.dispose();
+			try{
+				Thread.sleep(20);
+			}catch(Exception e){}
+		}
+	}
+		public void draw(Graphics g){
+			g.drawImage(bg, 0, 0, null);
+			g.drawImage(a.getImage(),50,50,null);
+		}
+	
+
+}
