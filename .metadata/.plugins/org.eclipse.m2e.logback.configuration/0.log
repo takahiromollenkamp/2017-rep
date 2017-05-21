@@ -15,3 +15,6 @@
 
 2017-05-15 09:06:09,880 [Worker-3] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
 2017-05-15 09:06:16,219 [Worker-3] INFO  c.g.t.t.d.PublishedGradleVersions - Updating Gradle version information cache failed. Using outdated cache.
+2017-05-20 21:18:29,667 [Thread-7] ERROR org.eclipse.jgit.util.FS - fatal: Could not switch to '/Applications/Xcode.app/Contents/Developer/usr/etc/': No such file or directory
+
+2017-05-20 21:18:36,786 [Worker-2] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
