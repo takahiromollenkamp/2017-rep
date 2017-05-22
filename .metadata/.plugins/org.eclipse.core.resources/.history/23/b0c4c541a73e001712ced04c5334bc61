@@ -105,7 +105,7 @@ public class Play2 extends Core implements KeyListener{
 				float dd=beam[j].getY();
 				float ee=ship.getX();
 				float ff=ship.getY();
-				if(Math.abs(aa-cc)<18&&Math.abs(bb-dd)<10){
+				if(Math.abs(aa-cc)<10&&Math.abs(bb-dd)<10){
 					//destroy ship
 					empire[i].kill();
 					score+=5;

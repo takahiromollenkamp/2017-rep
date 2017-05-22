@@ -65,17 +65,14 @@ public class Alien extends Sprite {
 	}
 	public Alien(float a, float b){
 		super();
-		alive=true;
 		setX(a);
 		setY(b);
 		setVelocityX(.03f);
 		setVelocityY(0f);
 		initialX=a;
 		evil=new AlienShot[10];
-		for(int i=0;i<10; i++){
-			evil[i]=new AlienShot();
-		}
-		shotTracker=-5;
+		
+		
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		InputStream input1 = classLoader.getResourceAsStream("alien.jpg");
 		
