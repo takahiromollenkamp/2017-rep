@@ -11,6 +11,8 @@ public class Play2 extends Core implements KeyListener{
 	
 	private Ship ship;
 	private Alien[] empire;
+	private Explosion[] explosion;
+	private int explodeCount;
 	private ScreenManager s;
 	private Image bg;
 	private Shot[] beam;
@@ -20,6 +22,7 @@ public class Play2 extends Core implements KeyListener{
 	private boolean spacePressed;
 	private long shotTracker;
 	private int score;
+	private int life;
 	private boolean keep;
 	
 	public boolean shoot(){
@@ -32,12 +35,19 @@ public class Play2 extends Core implements KeyListener{
 	
 	public synchronized void draw(Graphics2D g){
 		
+		
+		
 		g.drawImage(bg,0,0,null);
-		g.drawImage(empire[0].getEvilShot(0).getImage(), Math.round(empire[0].getEvilShot(0).getX()), Math.round(empire[0].getEvilShot(0).getY()),null);
+		g.clearRect(0, 0,120 ,20 );
 		g.drawImage(ship.getImage(), Math.round(ship.getX()), Math.round(ship.getY()),null);
 		for(int i=0;i<10;i++){
 			if(beam[i].loaded()){
 				g.drawImage(beam[i].getImage(), Math.round(beam[i].getX()), Math.round(beam[i].getY()),null);
+			}
+		}
+		for(int i=0;i<10;i++){
+			if(explosion[i].isAlive()){
+				g.drawImage(explosion[i].getImage(), Math.round(explosion[i].getX()), Math.round(explosion[i].getY()),null);
 			}
 		}
 		for(int j=0;j<10;j++){
@@ -50,6 +60,7 @@ public class Play2 extends Core implements KeyListener{
 				}
 			}
 		}
+		g.drawString("Score: "+score+" Life: "+life, 2, 15);
 		
 	}
 	public void update(long timePassed){
@@ -96,38 +107,79 @@ public class Play2 extends Core implements KeyListener{
 				beam[i].update(timePassed);
 			}	
 		}
+		for(int i=0;i<10;i++){
+			if(explosion[i].isAlive()){
+				explosion[i].update(timePassed);
+			}	
+		}
+		if(ship.getY()<-100){
+			spawnAliens();
+		}
 		for(int j=0;j<10;j++){
 			{
 				empire[j].update(timePassed);
+				if(empire[j].getY()<-1000){
+					life--;
+					spawnAliens();
+				}
 			}	
 		}
 		for(int i=0;i<10;i++){
 			for(int j=0;j<10;j++){
 				float aa=empire[i].getX()+15;
 				float bb=empire[i].getY()+10;
-				float cc=beam[j].getX();
-				float dd=beam[j].getY();
+				float cc=beam[j].getX()+2;
+				float dd=beam[j].getY()+5;
 				float ee=ship.getX();
 				float ff=ship.getY();
-				if(Math.abs(aa-cc)<18&&Math.abs(bb-dd)<10){
+				for(int k=0;k<10;k++){
+					float gg=empire[i].getEvilShot(k).getX();
+					float hh=empire[i].getEvilShot(k).getY();
+					if(Math.abs(gg-ee)<18&&Math.abs(ff-hh)<30){
+						explosion[explodeCount%10].activate();
+						explosion[explodeCount%10].setX(ee);
+						explosion[explodeCount%10].setY(ff);
+						life--;
+						ship.kill();
+						explodeCount++;
+						/*new java.util.Timer().schedule( 
+						        new java.util.TimerTask() {
+						            @Override
+						            public void run() {
+						            	spawnAliens();
+						           
+						            }
+						        }, 
+						        600 
+						);*/
+						
+					}
+				}
+				if(Math.abs(aa-cc)<18&&Math.abs(bb-dd)<30){
 					//destroy ship
 					beam[i].setX(-20);
 					beam[i].setY(-20);
+					explosion[explodeCount%10].activate();
+					explosion[explodeCount%10].setX(aa);
+					explosion[explodeCount%10].setY(bb);
 					empire[i].kill();
-					
+					explodeCount++;
 					score+=5;
-					
 				}
+				
 				
 				
 			}
 		}
+		
 	}
 	public void spawnAliens(){
 		empire=new Alien[10];
 		for(int i=0;i<10;i++){
 			empire[i]=new Alien(20+60*i, 20);
 		}
+		ship =new Ship();
+		
 	}
 	
 	public void init(){
@@ -149,16 +201,22 @@ public class Play2 extends Core implements KeyListener{
 			beam[i]=new Shot();
 			
 		}
-		
+		life=3;
 		empire=new Alien[10];
 		for(int i=0;i<10;i++){
 			empire[i]=new Alien(20+60*i, 20);
+			empire[i].delayTime();
 		}
 		shotCount=0;
 		leftPressed=false;
 		rightPressed=false;
 		spacePressed=false;
-		
+		explodeCount=0;
+		explosion=new Explosion[10];
+		for(int i=0;i<10;i++){
+			explosion[i]=new Explosion();
+			
+		}
 		shotTracker=0;
 		
 		ship =new Ship();

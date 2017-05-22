@@ -6,8 +6,15 @@ import javax.imageio.ImageIO;
 
 public class Ship extends Sprite {
 	private Image pic;
-	
-	
+	private boolean alive;
+	public boolean isalive(){
+		return alive;
+	}
+	public void kill(){
+		alive=false;
+		setX(-2000);
+		setY(-2000);
+	}
 	public Ship(){
 		super();
 		setX(400);
@@ -15,7 +22,7 @@ public class Ship extends Sprite {
 		setVelocityX(0f);
 		setVelocityY(0f);
 		
-		
+		alive=true;
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		InputStream input1 = classLoader.getResourceAsStream("ship.jpg");
 		

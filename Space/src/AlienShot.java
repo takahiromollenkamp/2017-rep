@@ -14,7 +14,7 @@ public class AlienShot extends Sprite {
 		setX(a);
 		setY(b);
 		setVelocityX(0);
-		setVelocityY(.3f);
+		setVelocityY(.15f);
 	}
 	public boolean loaded(){
 		return load;

@@ -11,8 +11,9 @@ public class Alien extends Sprite {
 	private float initialX;
 	private boolean alive;
 	private AlienShot[] evil;
-	private long shotTracker;
+	private long shotTime;
 	private int shotCount;
+	private boolean first;
 	
 	public void change(){
 		if(getX()-initialX>200){
@@ -26,6 +27,9 @@ public class Alien extends Sprite {
 			setY(getY()+60);
 		}
 		
+	}
+	public void delayTime(){
+		shotTime+=5000;
 	}
 	public AlienShot getEvilShot(int i){
 		return evil[i];
@@ -47,10 +51,15 @@ public class Alien extends Sprite {
 	}
 	public void incShot(){
 		shotCount++;
-		shotTracker=System.currentTimeMillis();
+		shotTime=System.currentTimeMillis();
 	}
 	public boolean canShoot(){
-		if(System.currentTimeMillis()-shotTracker>1000){
+		if(first){
+			first=false;
+			shotTime=(long)(System.currentTimeMillis()+2000*Math.random());
+			return false;
+		}
+		if(System.currentTimeMillis()-shotTime>1000){
 			return true;
 		}
 		return false;
@@ -62,37 +71,21 @@ public class Alien extends Sprite {
 		return alive;
 	}
 	public void kill(){
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		InputStream input1 = classLoader.getResourceAsStream("explosion.jpg");
-		try{
-			phot=ImageIO.read(input1);
-		} catch(Exception e){
-			System.out.println("Where the picture?");
-		}
-		delayDeath();
-	}
-	public void delayDeath(){
-		long start=System.currentTimeMillis();
-		long end=start;
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		            	setX(2000);
-			              setY(2000);
-		              alive=false;
-		              
-		            }
-		        }, 
-		        600 
-		);
 		
+		alive=false;
+        setY(2000);
+        setVelocityX(0);
+        
+		
+	}
+	
 
 		
-	}
+	
 	public Alien(float a, float b){
 		super();
 		alive=true;
+		first=true;
 		setX(a);
 		setY(b);
 		setVelocityX(.03f);
@@ -102,7 +95,7 @@ public class Alien extends Sprite {
 		for(int i=0;i<10; i++){
 			evil[i]=new AlienShot();
 		}
-		shotTracker=(long) (System.currentTimeMillis()+1000*Math.random());
+		
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		InputStream input1 = classLoader.getResourceAsStream("alien.jpg");
 		
