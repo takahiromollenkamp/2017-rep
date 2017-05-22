@@ -1,0 +1,49 @@
+
+import java.awt.Image;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+
+
+public class Alien extends Sprite {
+	private Image phot;
+	private float initialX;
+	public void change(){
+		if(getX()-initialX>200){
+			setVelocityX(-(getVelocityX()+.05f));
+			setX(getX()-10);
+			setY(getY()+30);
+		}
+		if(getX()-initialX<0){
+			setVelocityX(-(getVelocityX()-.05f));
+			setX(getX()+10);
+			setY(getY()+30);
+		}
+		
+	}
+	public void update(long timePassed){
+		super.update(timePassed);
+		change();
+		
+	}
+	public Alien(float a, float b){
+		super();
+		setX(a);
+		setY(b);
+		setVelocityX(.05f);
+		setVelocityY(0f);
+		initialX=a;
+		
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		InputStream input1 = classLoader.getResourceAsStream("alien.jpg");
+		
+		try{
+			phot=ImageIO.read(input1);
+		} catch(Exception e){
+			System.out.println("Where the picture?");
+		}
+	}
+	public Image getImage(){
+		return phot;
+	}
+}

@@ -1,0 +1,135 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+
+public class Play extends Core implements KeyListener{
+	public static void main(String[] args) {
+		new Play().run();
+	}
+	
+	private Sprite sprite;
+	private Animation a;
+	private ScreenManager s;
+	private Image bg;
+	private Shot[] beam;
+	private int shotCount;
+	private boolean leftPressed;
+	private boolean rightPressed;
+	private boolean spacePressed;
+	
+	
+	public synchronized void draw(Graphics2D g){
+		g.drawImage(bg,0,0,null);
+		g.drawImage(sprite.getImage(), Math.round(sprite.getX()), Math.round(sprite.getY()),null);
+		for(int i=0;i<10;i++){
+			if(beam[i].loaded()){
+				g.drawImage(beam[i].getImage(), Math.round(beam[i].getX()), Math.round(beam[i].getY()),null);
+			}
+		}
+	}
+	public void update(long timePassed){
+		if(spacePressed){
+			beam[shotCount%10].activate(sprite.getX()+27,sprite.getY()-35);
+			shotCount++;
+		}
+		if(rightPressed){
+			sprite.setVelocityX(.4f);
+		}
+		if(leftPressed){
+			sprite.setVelocityX(-.4f);
+		}
+		if(rightPressed&&leftPressed){
+			sprite.setVelocityX(0);
+		}
+		
+		if(sprite.getX()<0){
+			sprite.setX(10);
+			sprite.setVelocityX(.001f);
+		}else if(sprite.getX()+sprite.getWidth()>s.getWidth()){
+			sprite.setX(s.getWidth()-.001f-sprite.getWidth());
+			sprite.setVelocityX(0);
+		}
+		
+		sprite.update(timePassed);
+		for(int i=0;i<10;i++){
+			if(beam[i].loaded()){
+				beam[i].update(timePassed);
+			}	
+		}
+	}
+	
+	public void init(){
+		super.init();
+		s=getS();
+		Window w=s.getFullScreenWindow();
+		w.setFocusTraversalKeysEnabled(false);
+		w.addKeyListener(this);
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		InputStream input1 = classLoader.getResourceAsStream("space2.jpg");
+		InputStream input2 = classLoader.getResourceAsStream("ship.jpg");
+		try{
+			bg=ImageIO.read(input1);
+			a=new Animation();
+			Image ship=ImageIO.read(input2);
+			a.addScene(ship, 200);
+		} catch(Exception e){}
+		
+		beam=new Shot[10];
+		for(int i=0;i<10;i++){
+			beam[i]=new Shot();
+			
+		}
+		shotCount=0;
+		leftPressed=false;
+		rightPressed=false;
+		spacePressed=false;
+		
+		
+		sprite =new Sprite(a);
+		sprite.setX(400);
+		sprite.setY(500);
+		sprite.setVelocityX(0f);
+		sprite.setVelocityY(0f);
+	}
+	public void keyPressed(KeyEvent e){
+		int keyCode=e.getKeyCode();
+		if(keyCode==KeyEvent.VK_ESCAPE){
+			stop();
+		} else if(keyCode==KeyEvent.VK_RIGHT){
+			rightPressed=true;
+			leftPressed=false;
+			
+		} else if(keyCode==KeyEvent.VK_LEFT){
+			leftPressed=true;
+			rightPressed=false;
+			
+		}  
+		if(keyCode==KeyEvent.VK_SPACE){
+			spacePressed=true;
+			
+		}
+		e.consume();
+	}
+	public void keyTyped(KeyEvent e){
+		e.consume();
+	}
+	public void keyReleased(KeyEvent e){
+		int keyCode=e.getKeyCode();
+		if(keyCode==KeyEvent.VK_RIGHT){
+			rightPressed=false;
+			sprite.setVelocityX(0);	
+		} else if(keyCode==KeyEvent.VK_LEFT){
+			leftPressed=false;
+			sprite.setVelocityX(0);
+		}  
+		if(keyCode==KeyEvent.VK_SPACE){
+			spacePressed=false;
+		}
+	}
+	
+
+	
+}
+

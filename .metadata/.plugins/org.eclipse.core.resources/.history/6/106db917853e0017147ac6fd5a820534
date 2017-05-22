@@ -1,0 +1,77 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+
+public class Play extends Core implements KeyListener{
+	public static void main(String[] args) {
+		new Play().run();
+	}
+	
+	private Sprite sprite;
+	private Animation a;
+	private ScreenManager s;
+	private Image bg;
+	
+	public synchronized void draw(Graphics2D g){
+		g.drawImage(bg,0,0,null);
+		g.drawImage(sprite.getImage(), Math.round(sprite.getX()), Math.round(sprite.getY()),null);
+		
+	}
+	public void update(long timePassed){
+		if(sprite.getX()<0){
+			sprite.setVelocityX(0);
+		}else if(sprite.getX()+sprite.getWidth()>s.getWidth()){
+			sprite.setVelocityX(0);
+		}
+		
+		sprite.update(timePassed);
+	}
+	
+	public void init(){
+		super.init();
+		s=getS();
+		Window w=s.getFullScreenWindow();
+		w.setFocusTraversalKeysEnabled(false);
+		w.addKeyListener(this);
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		InputStream input1 = classLoader.getResourceAsStream("space2.jpg");
+		InputStream input2 = classLoader.getResourceAsStream("ship.jpg");
+		try{
+			bg=ImageIO.read(input1);
+			a=new Animation();
+			Image ship=ImageIO.read(input2);
+			a.addScene(ship, 200);
+		} catch(Exception e){}
+		
+		
+		
+		sprite =new Sprite(a);
+		sprite.setX(400);
+		sprite.setY(500);
+		sprite.setVelocityX(0f);
+		sprite.setVelocityY(0f);
+	}
+	public void keyPressed(KeyEvent e){
+		int keyCode=e.getKeyCode();
+		if(keyCode==KeyEvent.VK_ESCAPE){
+			stop();
+		} else if(keyCode==KeyEvent.VK_RIGHT){
+			sprite.setVelocityX(.4f);	
+		} else if(keyCode==KeyEvent.VK_LEFT){
+			sprite.setVelocityX(-.4f);
+		}
+		e.consume();
+	}
+	public void keyTyped(KeyEvent e){
+		e.consume();
+	}
+	public void keyReleased(KeyEvent e){
+		sprite.setVelocityX(0f);
+	}
+	
+
+	
+}
+

@@ -14,7 +14,9 @@ public abstract class Core {
 	};
 	private boolean running;
 	protected ScreenManager s;
-	
+	public ScreenManager getS(){
+		return s;
+	}
 	public void stop(){
 		running=false;
 	}

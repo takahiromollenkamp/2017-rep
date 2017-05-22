@@ -1,0 +1,32 @@
+import java.awt.Image;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+
+
+public class Shot extends Sprite {
+	private Image pic;
+	
+	
+	
+	public Shot(Float a, Float b){
+		super();
+		setX(a);
+		setY(b);
+		setVelocityX(0);
+		setVelocityY(-.5f);
+		
+		
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		InputStream input1 = classLoader.getResourceAsStream("shot.png");
+		
+		try{
+			pic=ImageIO.read(input1);
+		} catch(Exception e){
+			System.out.println("Where the picture?");
+		}
+	}
+	public Image getImage(){
+		return pic;
+	}
+}
