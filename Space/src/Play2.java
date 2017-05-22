@@ -54,7 +54,7 @@ public class Play2 extends Core implements KeyListener{
 	public void update(long timePassed){
 		
 		if(spacePressed&&shoot()){
-			beam[shotCount%10].activate(ship.getX()+27,ship.getY()-35);
+			beam[shotCount%10].activate(ship.getX()+22,ship.getY()-30);
 			shotCount++;
 			shotTracker=System.currentTimeMillis();
 			

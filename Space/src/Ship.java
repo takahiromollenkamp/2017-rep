@@ -11,7 +11,7 @@ public class Ship extends Sprite {
 	public Ship(){
 		super();
 		setX(400);
-		setY(500);
+		setY(550);
 		setVelocityX(0f);
 		setVelocityY(0f);
 		

@@ -49,7 +49,7 @@ public class Alien extends Sprite {
 		shotTracker=System.currentTimeMillis();
 	}
 	public boolean canShoot(){
-		if(System.currentTimeMillis()-shotTracker>200){
+		if(System.currentTimeMillis()-shotTracker>1000){
 			return true;
 		}
 		return false;
@@ -75,7 +75,7 @@ public class Alien extends Sprite {
 		for(int i=0;i<10; i++){
 			evil[i]=new AlienShot();
 		}
-		shotTracker=-5;
+		shotTracker=(long) (System.currentTimeMillis()+1000*Math.random());
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		InputStream input1 = classLoader.getResourceAsStream("alien.jpg");
 		
