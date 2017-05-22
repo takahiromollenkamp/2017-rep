@@ -25,7 +25,6 @@ public class Ship extends Sprite {
 			System.out.println("Where the picture?");
 		}
 	}
-	
 	public int getHeight(){
 		return getImage().getHeight(null);
 	}

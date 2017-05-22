@@ -81,9 +81,9 @@ public class Alien extends Sprite {
 		              alive=false;
 		            }
 		        }, 
-		        600 
+		        5000 
 		);
-		
+		alive=false;
 
 		
 	}

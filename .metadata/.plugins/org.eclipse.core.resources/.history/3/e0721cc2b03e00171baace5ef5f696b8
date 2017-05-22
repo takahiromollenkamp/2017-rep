@@ -2,7 +2,6 @@
 import java.awt.Image;
 import java.io.InputStream;
 
-
 import javax.imageio.ImageIO;
 
 
@@ -66,26 +65,13 @@ public class Alien extends Sprite {
 		InputStream input1 = classLoader.getResourceAsStream("explosion.jpg");
 		try{
 			phot=ImageIO.read(input1);
+			Thread.sleep(1000);
+			alive=false;
 		} catch(Exception e){
 			System.out.println("Where the picture?");
 		}
-		delayDeath();
-	}
-	public void delayDeath(){
-		long start=System.currentTimeMillis();
-		long end=start;
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		              alive=false;
-		            }
-		        }, 
-		        600 
-		);
 		
-
-		
+		alive=false;
 	}
 	public Alien(float a, float b){
 		super();

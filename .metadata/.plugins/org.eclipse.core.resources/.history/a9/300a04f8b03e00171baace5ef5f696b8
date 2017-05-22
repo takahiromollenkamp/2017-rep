@@ -69,21 +69,14 @@ public class Alien extends Sprite {
 		} catch(Exception e){
 			System.out.println("Where the picture?");
 		}
-		delayDeath();
 	}
 	public void delayDeath(){
 		long start=System.currentTimeMillis();
 		long end=start;
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		              alive=false;
-		            }
-		        }, 
-		        600 
-		);
-		
+		while(System.currentTimeMillis()-start<1000){
+			
+		}
+		alive=false;
 
 		
 	}
