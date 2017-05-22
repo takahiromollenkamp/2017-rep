@@ -20,6 +20,7 @@ public class Play2 extends Core implements KeyListener{
 	private boolean spacePressed;
 	private long shotTracker;
 	private int score;
+	private boolean keep;
 	
 	public boolean shoot(){
 		if(System.currentTimeMillis()-shotTracker>200){
@@ -53,6 +54,7 @@ public class Play2 extends Core implements KeyListener{
 	}
 	public void update(long timePassed){
 		
+		
 		if(spacePressed&&shoot()){
 			beam[shotCount%10].activate(ship.getX()+22,ship.getY()-30);
 			shotCount++;
@@ -85,7 +87,9 @@ public class Play2 extends Core implements KeyListener{
 			ship.setVelocityX(0);
 		}
 		
-		
+		if(!empire[0].isAlive()&&!empire[1].isAlive()&&!empire[2].isAlive()&&!empire[3].isAlive()&&!empire[4].isAlive()&&!empire[5].isAlive()&&!empire[6].isAlive()&&!empire[7].isAlive()&&!empire[8].isAlive()&&!empire[9].isAlive()){
+			spawnAliens();
+		}
 		ship.update(timePassed);
 		for(int i=0;i<10;i++){
 			if(beam[i].loaded()){
@@ -107,13 +111,22 @@ public class Play2 extends Core implements KeyListener{
 				float ff=ship.getY();
 				if(Math.abs(aa-cc)<18&&Math.abs(bb-dd)<10){
 					//destroy ship
+					beam[i].setX(-20);
+					beam[i].setY(-20);
 					empire[i].kill();
+					
 					score+=5;
 					
 				}
 				
 				
 			}
+		}
+	}
+	public void spawnAliens(){
+		empire=new Alien[10];
+		for(int i=0;i<10;i++){
+			empire[i]=new Alien(20+60*i, 20);
 		}
 	}
 	
@@ -154,6 +167,7 @@ public class Play2 extends Core implements KeyListener{
 	public void keyPressed(KeyEvent e){
 		int keyCode=e.getKeyCode();
 		if(keyCode==KeyEvent.VK_ESCAPE){
+			System.exit(0);
 			stop();
 		} else if(keyCode==KeyEvent.VK_RIGHT){
 			rightPressed=true;

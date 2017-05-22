@@ -78,7 +78,10 @@ public class Alien extends Sprite {
 		        new java.util.TimerTask() {
 		            @Override
 		            public void run() {
+		            	setX(2000);
+			              setY(2000);
 		              alive=false;
+		              
 		            }
 		        }, 
 		        600 
