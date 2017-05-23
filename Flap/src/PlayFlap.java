@@ -51,8 +51,7 @@ public class PlayFlap extends Core implements KeyListener {
 		
 		for(int i=0;i<5; i++){
 			if(rect[i].isVisible()){
-				double r=rect[i].lowBound();
-				int low=(int)(r*screenLength);
+				double r=rect[i].lowBound(); 				int low=(int)(r*screenLength);
 				double r2=r+.3;
 				int high=(int)(r2*screenLength);
 				rect[i].setLow(low);
