@@ -42,7 +42,7 @@ public class Play2 extends Core implements KeyListener{
 		if(!gameover){
 		g.drawImage(bg,0,0,null);
 		g.clearRect(0, 0,120 ,20 );
-		
+		g.clearRect(200, 0, 800, 20);
 		g.drawImage(ship.getImage(), Math.round(ship.getX()), Math.round(ship.getY()),null);
 		for(int i=0;i<10;i++){
 			if(beam[i].loaded()){
@@ -64,7 +64,7 @@ public class Play2 extends Core implements KeyListener{
 				}
 			}
 		}
-		mess="Score: "+score+" Life: "+life;
+		mess="Score: "+score+" Life: "+life+ ".        right and left arrow for controlling the ship, space to shoot, escape to quit the game";
 		g.drawString(mess, 2, 15);
 		} else{
 			g.clearRect(0, 0,2000,2000 );
@@ -80,7 +80,7 @@ public class Play2 extends Core implements KeyListener{
 			              
 			            }
 			        }, 
-			        2000
+			        5000
 			);
 			
 			
@@ -148,7 +148,7 @@ public class Play2 extends Core implements KeyListener{
 		for(int j=0;j<10;j++){
 			{
 				empire[j].update(timePassed);
-				if(empire[j].getY()>800){
+				if(empire[j].getY()>1000){
 					life--;
 					spawnAliens();
 				}

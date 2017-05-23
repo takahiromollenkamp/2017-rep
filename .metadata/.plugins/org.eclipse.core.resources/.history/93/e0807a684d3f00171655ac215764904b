@@ -17,12 +17,12 @@ public class Alien extends Sprite {
 	
 	public void change(){
 		if(getX()-initialX>200){
-			setVelocityX(-(getVelocityX()+.02f));
+			setVelocityX(-(getVelocityX()+.03f));
 			setX(getX()-10);
 			setY(getY()+60);
 		}
 		if(getX()-initialX<0){
-			setVelocityX(-(getVelocityX()-.02f));
+			setVelocityX(-(getVelocityX()-.03f));
 			setX(getX()+10);
 			setY(getY()+60);
 		}
@@ -59,7 +59,7 @@ public class Alien extends Sprite {
 			shotTime=(long)(System.currentTimeMillis()+2000*Math.random());
 			return false;
 		}
-		if(System.currentTimeMillis()-shotTime>1500){
+		if(System.currentTimeMillis()-shotTime>2000){
 			return true;
 		}
 		return false;
@@ -73,7 +73,7 @@ public class Alien extends Sprite {
 	public void kill(){
 		
 		alive=false;
-        setY(-2000);
+        setY(2000);
         setVelocityX(0);
         
 		
@@ -82,13 +82,13 @@ public class Alien extends Sprite {
 
 		
 	
-	public Alien(float a, float b, float initVX){
+	public Alien(float a, float b){
 		super();
 		alive=true;
 		first=true;
 		setX(a);
 		setY(b);
-		setVelocityX(initVX);
+		setVelocityX(.03f);
 		setVelocityY(0f);
 		initialX=a;
 		evil=new AlienShot[10];

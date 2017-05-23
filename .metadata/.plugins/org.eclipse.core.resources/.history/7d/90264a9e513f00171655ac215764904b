@@ -148,7 +148,7 @@ public class Play2 extends Core implements KeyListener{
 		for(int j=0;j<10;j++){
 			{
 				empire[j].update(timePassed);
-				if(empire[j].getY()>800){
+				if(empire[j].getY()>1000){
 					life--;
 					spawnAliens();
 				}
