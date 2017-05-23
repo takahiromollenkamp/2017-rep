@@ -37,7 +37,7 @@ public class Bird extends Sprite {
 	public void update(long timePassed){
 		super.update(timePassed);
 		setVelocityY(getVelocityY()+ay*timePassed);
-		if(getY()<-10&&getY()>-50){
+		if(getY()<-20&&getY()>-50){
 			setY(50);
 			setVelocityY(-.3f);
 		}

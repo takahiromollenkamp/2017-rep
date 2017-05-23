@@ -53,7 +53,7 @@ public class PlayFlap extends Core implements KeyListener {
 			if(rect[i].isVisible()){
 				double r=rect[i].lowBound();
 				int low=(int)(r*screenLength);
-				double r2=r+.25;
+				double r2=r+.3;
 				int high=(int)(r2*screenLength);
 				rect[i].setLow(low);
 				rect[i].setHigh(high);
@@ -76,7 +76,7 @@ public class PlayFlap extends Core implements KeyListener {
 			rect[i].update(timePassed);
 		}
 			
-			 if(System.currentTimeMillis()-time>1500){
+			 if(System.currentTimeMillis()-time>1800){
 				rect[rectCount%5].activate();
 				rectCount++;
 				time=System.currentTimeMillis();
@@ -84,7 +84,7 @@ public class PlayFlap extends Core implements KeyListener {
 	if(!trump.isAlive()){
 		finalScore=score;
 	} else{
-		score=(int)((System.currentTimeMillis()-initTime-3000)/1500);
+		score=(int)((System.currentTimeMillis()-initTime-3000)/1800);
 	}
 			
 			

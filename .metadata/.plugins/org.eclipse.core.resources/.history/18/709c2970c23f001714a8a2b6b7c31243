@@ -7,7 +7,7 @@ import java.awt.image.ImageObserver;
 
 public class PlayFlap extends Core implements KeyListener {
 	public static void main(String[] args) {
-		new java.util.Timer().schedule( 
+		/*new java.util.Timer().schedule( 
 		        new java.util.TimerTask() {
 		            @Override
 		            public void run() {
@@ -15,8 +15,8 @@ public class PlayFlap extends Core implements KeyListener {
 		              
 		            }
 		        }, 
-		       
-		);
+		        15000
+		);*/
 		new PlayFlap().run();
 	}
 	private Bird trump;
@@ -24,17 +24,25 @@ public class PlayFlap extends Core implements KeyListener {
 	private int rectCount;
 	private long time;
 	private int screenLength;
-	private int screenHeight;
+	private boolean first;
+	private float ty;
+	private Explosion explosion;
+	private int score;
+	private long initTime;
+	private int finalScore;
+	
 	
 	public synchronized void draw(Graphics2D g) {
 		g.clearRect(0,0,1000,1000);
-		g.fillRect(0, 0, 20, 20);
-		
-		
+		if(trump.isAlive()){
+		if(explosion.isAlive()){
+			g.drawImage(explosion.getImage(), Math.round(explosion.getX()),Math.round(explosion.getY()), null);
+		}
+		g.drawString(" "+score, 50, 50);
 		BufferedImage buffered = (BufferedImage) trump.getImage();;
 		int drawLocationX = Math.round(trump.getX());
 		int drawLocationY = Math.round(trump.getY());
-		double rotationRequired = trump.getAngle();
+		double rotationRequired =Math.atan((trump.getY()-ty)/200);
 		double locationX = buffered.getWidth() / 2;
 		double locationY = buffered.getHeight() / 2;
 		AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
@@ -45,14 +53,19 @@ public class PlayFlap extends Core implements KeyListener {
 			if(rect[i].isVisible()){
 				double r=rect[i].lowBound();
 				int low=(int)(r*screenLength);
-				
-				int high=screenLength-low;
-				g.fillRect(Math.round(rect[i].getX()),low , 20,(screenLength-low));
-				//g.fillRect(Math.round(rect[i].getX()),0 , 20,high);
+				double r2=r+.25;
+				int high=(int)(r2*screenLength);
+				rect[i].setLow(low);
+				rect[i].setHigh(high);
+				g.fillRect(Math.round(rect[i].getX()),high , 60,(screenLength-high));
+				g.fillRect(Math.round(rect[i].getX()),0 , 60,low);
 				
 				
 				
 			}
+		}
+		} else {
+			g.drawString("Your score was "+finalScore, 50,50);
 		}
 		
 		
@@ -62,26 +75,57 @@ public class PlayFlap extends Core implements KeyListener {
 		for(int i=0;i<5;i++){
 			rect[i].update(timePassed);
 		}
-		if(System.currentTimeMillis()-time>1000){
-			rect[rectCount%5].activate();
-			rectCount++;
-			time=System.currentTimeMillis();
+			
+			 if(System.currentTimeMillis()-time>1800){
+				rect[rectCount%5].activate();
+				rectCount++;
+				time=System.currentTimeMillis();
+			}
+	if(!trump.isAlive()){
+		finalScore=score;
+	} else{
+		score=(int)((System.currentTimeMillis()-initTime-3300)/1800);
+	}
+			
+			
+		
+		for(int i=0; i<5; i++){
+			int a=rect[i].getLow();
+			int b=rect[i].getHigh();
+			int c=(int)rect[i].getX();
+			int d=(int)trump.getX()+15;
+			int e=(int)trump.getY()+15;
+			if(Math.abs(d-c)<30&&(e-b>-15||e-a<15)){
+				trump.terminate();
+				trump.setX(2000);
+				explosion.activate();
+				explosion.setX(d);
+				explosion.setY(e);
+				
+				
+			}
+			
 		}
 	}
 	public void init(){
 		super.init();
+		ty=100;
 		s=getS();
 		Window w=s.getFullScreenWindow();
 		w.setFocusTraversalKeysEnabled(false);
 		w.addKeyListener(this);
 		trump=new Bird();
 		rect=new Rectangle[5];
+		explosion=new Explosion();
 		for(int i=0;i<5;i++){
 			rect[i]=new Rectangle();
 		}
+		first=true;
 		rectCount=0;
 		time=System.currentTimeMillis();
+		initTime=System.currentTimeMillis();
 		screenLength=s.getHeight();
+		
 	}
 
 	@Override
@@ -104,7 +148,18 @@ public class PlayFlap extends Core implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 		int keyCode=e.getKeyCode();
 		if(keyCode==KeyEvent.VK_SPACE){
-			trump.setVelocityY(-.3f);;
+			trump.setVelocityY(-.4f);
+			new java.util.Timer().schedule( 
+			        new java.util.TimerTask() {
+			            @Override
+			            public void run() {
+			            	ty=trump.getY();
+			              
+			            }
+			        }, 
+			        40
+			);
+			
 		}
 		e.consume();
 		
