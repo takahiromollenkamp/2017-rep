@@ -10,6 +10,7 @@ public class Play2 extends Core implements KeyListener{
 	}
 	
 	private Ship ship;
+	private boolean gameover;
 	private Alien[] empire;
 	private Explosion[] explosion;
 	private int explodeCount;
@@ -36,7 +37,7 @@ public class Play2 extends Core implements KeyListener{
 	public synchronized void draw(Graphics2D g){
 		
 		
-		
+		if(!gameover){
 		g.drawImage(bg,0,0,null);
 		g.clearRect(0, 0,120 ,20 );
 		g.drawImage(ship.getImage(), Math.round(ship.getX()), Math.round(ship.getY()),null);
@@ -61,11 +62,33 @@ public class Play2 extends Core implements KeyListener{
 			}
 		}
 		g.drawString("Score: "+score+" Life: "+life, 2, 15);
+		} else{
+			g.clearRect(0, 0,2000,2000 );
+			g.drawString("Your score was "+score, 200, 200);
+			
+			
+			new java.util.Timer().schedule( 
+			        new java.util.TimerTask() {
+			            @Override
+			            public void run() {
+			            	System.exit(0);
+			              
+			            }
+			        }, 
+			        5000
+			);
+			
+			
+			
+			
+		}
 		
 	}
 	public void update(long timePassed){
 		
-		
+		if(life<0){
+			gameover=true;
+		}
 		if(spacePressed&&shoot()){
 			beam[shotCount%10].activate(ship.getX()+22,ship.getY()-30);
 			shotCount++;
@@ -169,6 +192,7 @@ public class Play2 extends Core implements KeyListener{
 				
 				
 				
+				
 			}
 		}
 		
@@ -190,7 +214,7 @@ public class Play2 extends Core implements KeyListener{
 		w.addKeyListener(this);
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		InputStream input1 = classLoader.getResourceAsStream("space2.jpg");
-		
+		gameover=false;
 		try{
 			bg=ImageIO.read(input1);
 			
