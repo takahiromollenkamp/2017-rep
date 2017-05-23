@@ -1,0 +1,23 @@
+
+public class Rectangle extends Sprite {
+	private double random;
+	private boolean visible;
+	public Rectangle(){
+		super();
+		visible=false;
+		random=Math.random();
+	}
+	public boolean isVisible(){
+		return visible;
+	}
+	public double lowBound(){
+		return random+.1;
+	}
+	public void activate(){
+		random=Math.random()*.8;
+		setVelocityX(-.05f);
+		setX(300);
+		setY(200);
+		setVelocityY(0);
+	}
+}

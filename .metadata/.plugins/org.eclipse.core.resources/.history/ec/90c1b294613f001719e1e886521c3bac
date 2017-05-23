@@ -1,0 +1,42 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class PlayFlap extends Core implements KeyListener {
+	public static void main(String[] args) {
+		new PlayFlap().run();
+	}
+	private Bird trump;
+	
+	public synchronized void draw(Graphics2D g) {
+		g.drawImage(trump.getImage(), Math.round(trump.getX()), Math.round(trump.getY()),null);
+	}
+	public void update(long timePassed){
+		trump.update(timePassed);
+	}
+	public void init(){
+		super.init();
+		s=getS();
+		Window w=s.getFullScreenWindow();
+		w.setFocusTraversalKeysEnabled(false);
+		w.addKeyListener(this);
+		trump=new Bird();
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+}

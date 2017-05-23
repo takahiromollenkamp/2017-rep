@@ -1,0 +1,13 @@
+
+public class Rectangle extends Sprite {
+	double random;
+	public Rectangle(){
+		super();
+		random=Math.random();
+		setVelocityX(-.05f);
+		setX(600);
+		setY(0);
+		setVelocityY(0);
+		
+	}
+}
