@@ -18,7 +18,9 @@ public class Puck extends Sprite {
 		setVelocityY(0);
 		setVelocityX(0);
 	}
-	
+	public int getWidth(){
+		return pic.getWidth(null);
+	}
 	public void update(long timePassed){
 		super.update(timePassed);
 		/*if(getX()<0||getX()>800){

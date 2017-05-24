@@ -55,14 +55,14 @@ public class PlayHockey extends Core implements KeyListener{
 			p2.setY(s.getHeight()-p2.getHeight());
 			p2.setVelocityY(0);
 		}
-		
+	
 		float aa=p1.getX()+15;
 		float bb=p1.getY()+p1.getHeight()/2;
-		float cc=p2.getX()-10;
-		float dd=p2.getY()+100;
+		float cc=p2.getX()-p2.getWidth()+35;
+		float dd=p2.getY()+p2.getHeight()/2;
 		float ee=puck.getX()+10;
 		float ff=puck.getY()+10;
-		if(Math.abs(aa-ee)<60&&Math.abs(ff-bb)<p1.getHeight()/2){
+		if(Math.abs(aa-ee)<80&&Math.abs(ff-bb)<(p1.getHeight()/2)+40){
 			puck.setVelocityX(-puck.getVelocityX());
 			if(p1.getVelocityY()!=0){
 				puck.setVelocityY(p1.getVelocityY()/2);
@@ -71,7 +71,7 @@ public class PlayHockey extends Core implements KeyListener{
 			puck.setVelocityY((float)(-.2f+.4*Math.random()));
 			
 		}
-		if(Math.abs(cc-ee)<80&&Math.abs(dd-bb)<120){
+		if(Math.abs(cc-(ee+puck.getWidth()))<100&&Math.abs(dd-bb)<(p2.getHeight())+200){
 			puck.setVelocityX(-puck.getVelocityX());
 			if(p2.getVelocityY()!=0){
 				puck.setVelocityY(p1.getVelocityY()/2);
@@ -100,9 +100,9 @@ public class PlayHockey extends Core implements KeyListener{
 		w.addKeyListener(this);
 		p1=new Panel();
 		p2=new Panel();
-		p1.setX(10);
+		p1.setX(100);
 		p1.setY(100);
-		p2.setX(s.getWidth()-30);
+		p2.setX(s.getWidth()-130);
 		p2.setY(100);
 		puck=new Puck();
 		puck.setX(s.getWidth()/2-20);
@@ -113,9 +113,9 @@ public class PlayHockey extends Core implements KeyListener{
 	public void start(){
 		double d=Math.random();
 		if(d<.5){
-			puck.setVelocityX(.2f);
+			puck.setVelocityX(.4f);
 		} else{
-			puck.setVelocityX(-.2f);
+			puck.setVelocityX(-.4f);
 		}
 		puck.setVelocityY(0);
 		puck.setX(s.getWidth()/2-20);

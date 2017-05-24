@@ -15,6 +15,9 @@ public class Panel extends Sprite {
 		}
 		setVelocityY(0);
 	}
+	public int getWidth(){
+		return pic.getWidth(null);
+	}
 	public int getHeight(){
 		return pic.getHeight(null);
 	}

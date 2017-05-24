@@ -47,8 +47,8 @@ public class SprPractice {
 			a.addScene(face2, 250);
 		}catch(Exception e){}
 		sprite =new Sprite(a);
-		sprite.setVelocityX(.5f);
-		sprite.setVelocityY(.3f);
+		sprite.setVelocityX(.2f);
+		sprite.setVelocityY(.5f);
 		
 	}
 	
@@ -67,7 +67,7 @@ public class SprPractice {
 	public void movieLoop(){
 		long startingTime=System.currentTimeMillis();
 		long cumTime=startingTime;
-		while(cumTime-startingTime<6000){
+		while(cumTime-startingTime<10000){
 			long timePassed = System.currentTimeMillis()-cumTime;
 			cumTime+=timePassed;
 			update(timePassed);
