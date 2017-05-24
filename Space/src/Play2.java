@@ -120,10 +120,10 @@ public class Play2 extends Core implements KeyListener{
 		}
 		
 		if(ship.getX()<0){
-			ship.setX(10);
-			ship.setVelocityX(.001f);
+			ship.setX(0);
+			ship.setVelocityX(0);
 		}else if(ship.getX()+ship.getWidth()>s.getWidth()){
-			ship.setX(s.getWidth()-.001f-ship.getWidth());
+			ship.setX(s.getWidth()-ship.getWidth());
 			ship.setVelocityX(0);
 		}
 		

@@ -1,7 +1,7 @@
 import java.awt.Image;
 import java.io.InputStream;
-
 import javax.imageio.ImageIO;
+
 public class Explosion extends Sprite {
 	private Image pic;
 	private boolean alive;

@@ -1,0 +1,134 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class PlayHockey extends Core implements KeyListener{
+	private Panel p1;
+	private Panel p2;
+	private Puck puck;
+	private boolean oPressed;
+	private boolean mPressed;
+	private boolean wPressed;
+	private boolean xPressed;
+	private ScreenManager s;
+	
+	
+	public static void main(String[] args){
+		
+		new PlayHockey().run();
+	}
+	public synchronized void draw(Graphics2D g){
+		g.clearRect(-50, -50, 2000,2000);
+		g.drawImage(p1.getImage(),Math.round(p1.getX()), Math.round(p1.getY()), null);
+		g.drawImage(p2.getImage(),Math.round(p2.getX()), Math.round(p2.getY()), null);
+		g.drawImage(puck.getImage(),Math.round(puck.getX()), Math.round(puck.getY()), null);
+		
+		
+	}
+	public void update(long timePassed){
+		if(oPressed){
+			p2.setVelocityY(-.4f);
+		}
+		if(mPressed){
+			p2.setVelocityY(.4f);
+		}
+		if(wPressed){
+			p1.setVelocityY(-.4f);
+		}
+		if(xPressed){
+			p1.setVelocityY(.4f);
+		}
+		p1.update(timePassed);
+		p2.update(timePassed);
+		puck.update(timePassed);
+		if(p1.getY()<0){
+			p1.setY(10);
+			p1.setVelocityY(0);
+		}else if(p1.getY()+p1.getHeight()>s.getHeight()){
+			p1.setY(s.getHeight()-.001f-p1.getHeight());
+			p1.setVelocityY(0);
+		}
+		if(p2.getY()<0){
+			p2.setY(0);
+			p2.setVelocityY(0);
+		}else if(p2.getY()+p2.getHeight()>s.getHeight()){
+			p2.setY(s.getHeight()-.001f-p2.getHeight());
+			p2.setVelocityY(0);
+		}
+		
+	}
+	public void init(){
+		super.init();
+		s=getS();
+		Window w=s.getFullScreenWindow();
+		
+		w.setFocusTraversalKeysEnabled(false);
+		w.addKeyListener(this);
+		p1=new Panel();
+		p2=new Panel();
+		p1.setX(50);
+		p1.setY(100);
+		p2.setX(s.getWidth()-100);
+		p2.setY(100);
+		puck=new Puck();
+		
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		e.consume();
+		
+		
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int keyCode=e.getKeyCode();
+		if(keyCode==KeyEvent.VK_ESCAPE){
+			System.exit(0);
+		}
+		if(keyCode==KeyEvent.VK_O){
+			oPressed=true;
+			mPressed=false;
+			
+		} else if(keyCode==KeyEvent.VK_M){
+			mPressed=true;
+			oPressed=false;
+		}
+		if(keyCode==KeyEvent.VK_W){
+			wPressed=true;
+			xPressed=false;
+			
+		} else if(keyCode==KeyEvent.VK_X){
+			xPressed=true;
+			wPressed=false;
+		}
+		
+		e.consume();
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		int keyCode=e.getKeyCode();
+		if(keyCode==KeyEvent.VK_O){
+			p2.setVelocityY(0);
+			oPressed=false;
+			
+			
+		} else if(keyCode==KeyEvent.VK_M){
+			p2.setVelocityY(0);
+			mPressed=false;
+			
+		}
+		if(keyCode==KeyEvent.VK_W){
+			p1.setVelocityY(0);
+			wPressed=false;
+			
+		} else if(keyCode==KeyEvent.VK_X){
+			p1.setVelocityY(0);
+			xPressed=false;
+			
+		}
+		e.consume();
+		
+	}
+	
+}
